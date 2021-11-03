@@ -8,7 +8,10 @@ def citiredate():
 
 
 '''
-7. Toate nu sunt prime.
+    Verifica daca toate elementele dintr-o lista nu sunt prime.
+    :param l: lista de numere intregi
+    :return: True daca toate elementele din l nu sunt prime,sau False in caz contrar
+
 '''
 
 
@@ -58,7 +61,10 @@ def test_get_longest_all_not_prime():
 
 
 '''
-17. Toate numerele sunt in progresie artimetica.
+    Verifica daca toate elementele dintr-o lista sunt in progresie artimetica.
+    :param l: lista de numere intregi
+    :return: True daca toate elementele din l sunt in progresie artimetica,sau False in caz contrar
+    
 '''
 
 def prograrit(lst):
@@ -92,7 +98,9 @@ def test_get_longest_arithmetic_progression():
 
 
 '''
-10. Toate numerele sunt pare.
+    Verifica daca toate elementele dintr-o lista sunt pare.
+    :param l: lista de numere intregi
+    :return: True daca toate elementele din l sunt pare,sau False in caz contrar
 '''
 
 
