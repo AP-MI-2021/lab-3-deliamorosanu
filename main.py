@@ -1,185 +1,111 @@
-def citiredate():
-    lst = []
-    givenstring = input(" Dati datele problemei, separate prin virgula")
-    numersasstring = givenstring.split(",")
-    for x in numersasstring:
-        lst.append(int(x))
-    return lst
+'''
+Transformă un număr dat din baza 2 în baza 16. Numărul se dă în baza 2..
+    :param : un numar natural
+    :return: un număr dat din baza 2 în baza 16
+'''
+def get_base_16_from_2(n):
+    form = "0123456789ABCDEF"
+    nr_16 = ""
+    nr_10 = 0
+    put = 1
+    numar = int(n)
+    while numar != 0:
+        cifra = numar % 10
+        nr_10 = nr_10 + cifra * put
+        put = put * 2
+        numar = numar // 10
+    while nr_10 != 0:
+        i = nr_10 % 16
+        nr_16 = form[i] + nr_16
+        nr_10 = nr_10 // 16
+    return nr_16
 
 
 '''
-    Verifica daca toate elementele dintr-o lista nu sunt prime.
-    :param l: lista de numere intregi
-    :return: True daca toate elementele din l nu sunt prime,sau False in caz contrar
+Calculează combinări de n luate câte k (n și k date).
+    :param n: un numar natural
+    :param k: un numar natural
+    :return: combinări de n luate câte k 
+'''
+def get_n_choose_k_v1(n: int, k: int):
+    import math
+    return math.factorial(n) / (math.factorial(n - k) * math.factorial(k))
+def test_get_n_choose_k():
+    assert get_n_choose_k(5, 3) == 10
+    assert get_n_choose_k(7, 4) == 35
+    assert get_n_choose_k(5, 2) == 10
+'''
+sau
+'''
+def factorial(n: int):
+    p = 1
+    for i in range(1, n + 1):
+        p = p * i
+    return p
+def get_n_choose_k(n: int, k: int):
+    return factorial(n) // (factorial(n - k) * factorial(k))
+
 
 '''
+Determină dacă un număr este superprim: dacă toate prefixele sale sunt prime. De exemplu, `233` este superprim,
+ deoarece `2`, `23` și `233` sunt toate prime, dar `237` nu este superprim, deoarece `237` nu este prim. 
+    :param n: un numar natural
+    :return: True/False
+'''
 
-
-def esteprim(x):
-    if x < 2:
+def isPrime(n):
+    if n < 2:
         return False
-    else:
-        for i in range(2, x // 2 + 1):
-            if x % i == 0:
-                return False
-    return True
-
-
-def test_esteprim():
-    assert esteprim(13) is True
-    assert esteprim(1) is False
-    assert esteprim(2) is True
-
-
-def niciunulnuesteprim (lst):
-    for i in lst:
-        if esteprim(i):
-            return False
-    return True
-
-
-def test_niciunulnuesteprim():
-    assert niciunulnuesteprim([6,8,9]) is True
-    assert niciunulnuesteprim([1, 2, 3]) is False
-    assert niciunulnuesteprim([1, 4, 8, 9]) is True
-
-
-def get_longest_all_not_prime(lst):
-    secvMax = []
-    for i in range(0, len(lst)):
-        for j in range(i, len(lst)):
-            if niciunulnuesteprim(lst[i: j + 1]) and len(lst[i: j + 1]) > len(secvMax):
-                secvMax = lst[i: j + 1]
-    return secvMax
-
-
-
-def test_get_longest_all_not_prime():
-    assert (get_longest_all_not_prime([1,2,3,4,5,6,8,10])==[6,8,10]) is True
-    assert (get_longest_all_not_prime([1,3,5,7,8,9])==[5,7,8]) is False
-    assert (get_longest_all_not_prime([4,5,6,8])==[6,8]) is True
-
-
-'''
-    Verifica daca toate elementele dintr-o lista sunt in progresie artimetica.
-    :param l: lista de numere intregi
-    :return: True daca toate elementele din l sunt in progresie artimetica,sau False in caz contrar
-    
-'''
-
-def prograrit(lst):
-    for i in range(1,len(lst)-1):
-        if lst[i] != (lst[i-1]+lst[i+1]) / 2:
-            return False
-    return True
-
-
-def test_prograrit():
-    assert prograrit([1,2,3,4,5]) is True
-    assert prograrit([1,3,7]) is False
-    assert prograrit([6,7,8]) is True
-
-
-def get_longest_arithmetic_progression(lst):
-    subarit=[]
-    for i in range (len(lst)):
-        for j in range (i, len(lst)):
-            if prograrit(lst[i:j+1]) and len(lst[i:j+1]) > len(subarit):
-                subarit= lst[i:j+1]
-    return subarit
-
-
-def test_get_longest_arithmetic_progression():
-    assert get_longest_arithmetic_progression([1,2,3,4,5])==[1,2,3,4,5]
-    assert get_longest_arithmetic_progression([1,2,5,6,7,9,10])==[5,6,7]
-    assert get_longest_arithmetic_progression([1,4,6,9,12,15])==[6,9,12,15]
-
-
-
-
-'''
-    Verifica daca toate elementele dintr-o lista sunt pare.
-    :param l: lista de numere intregi
-    :return: True daca toate elementele din l sunt pare,sau False in caz contrar
-'''
-
-
-def este_par(n):
-    if n%2 == 0:
+    if n == 2:
         return True
-    return False
-
-
-def test_este_par():
-    assert este_par(2) is True
-    assert  este_par(3) is False
-    assert  este_par(1) is False
-
-
-def toate_sunt_pare(lst):
-    for x in lst:
-        if este_par(int(x)) is False:
+    if n >= 2:
+        for i in range(2, n):
+            if n % i == 0:
+                return False
+        return True
+def is_superprime(n):
+    if n < 2:
+        return False
+    while n > 0:
+        if n < 2:
             return False
+        if isPrime(n) == False:
+            return False
+        n = n // 10
     return True
-
-
-def test_toate_sunt_pare():
-    assert toate_sunt_pare([2,4,6,8]) is True
-    assert toate_sunt_pare([1,3,6,3]) is False
-    assert toate_sunt_pare([1,3]) is False
-
-
-def get_longest_all_even(lst):
-    lst_max = []
-    for i in range(0,len(lst)):
-        for j in range(i,len(lst)):
-            if toate_sunt_pare(lst[i:j+1]) and (len(lst[i:j+1]) > len(lst_max)):
-                lst_max = lst[i:j+1]
-    return lst_max
-
-
-def test_get_longest_all_even():
-    assert (get_longest_all_even([2,4,5]) == [2,4]) is True
-    assert (get_longest_all_even([1,2,3,5,4]) == [2,4]) is False
-    assert (get_longest_all_even([1,2,4,6]) == [2,4,6]) is True
+def test_is_superprime():
+    assert is_superprime(23) is True
+    assert is_superprime(88) is False
+    assert is_superprime(55) is False
 
 
 def main():
-    lst = []
     while True:
-        print("1. Citire date.")
-        print("2. Cea mai mare subsecventa de numere neprime")
-        print("3. Cea mai mare subsecventa de numere in progresie aritmetica.")
-        print("4. Cea mai lunga subsecventa de numere pare.")
-        print("x. Iesire din program.")
+        print("1. Transformarea unui numar din baza 2 in baza 16.")
+        print("2. Combinari de n luate cate k.")
+        print("3. Determina daca este supeprim.")
+        print("4. Iesire din program.")
         optiune = input("Alege optiunea")
         if optiune == "1":
-            lst = citiredate()
+            n = int(input("Dati numarul n:"))
+            print(get_base_16_from_2(n))
             print("\n")
         elif optiune == "2":
-            print(get_longest_all_not_prime(lst))
+            n = int(input("dati numarul n:"))
+            k = int(input("Dati numarul k:"))
+            print(f"Combinari de n luate cate k este: {get_n_choose_k(n, k)}")
             print("\n")
         elif optiune == "3":
-            print(get_longest_arithmetic_progression(lst))
-            print("\n")
+            nr = int(input("Dati numarul"))
+            print(is_superprime(nr))
         elif optiune == "4":
-            print(get_longest_all_even(lst))
-            print("\n")
-        elif optiune == "x":
             break
         else:
             print("Reincercati")
 
 
-if __name__ == "_main_":
-    test_esteprim()
-    test_niciunulnuesteprim()
-    test_get_longest_all_not_prime()
-    test_este_par()
-    test_toate_sunt_pare()
-    test_get_longest_all_even()
-    test_get_longest_arithmetic_progression()
-    test_prograrit()
+if __name__ == "main":
+    test_get_n_choose_k()
+    test_is_superprime()
 
 main()
-exit(0)
